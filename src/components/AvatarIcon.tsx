@@ -1,17 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Props = {
-  imageUrl?: string,
-  name?: string
-}
+  imageUrl?: string;
+  name?: string;
+};
 
-const AvatarIcon = ({imageUrl, name}: Props) => {
+const AvatarIcon = ({ imageUrl, name }: Props) => {
   return (
     <Avatar>
-      <AvatarImage src={imageUrl} alt='user' />
+      <AvatarImage src={imageUrl} alt="user" />
       <AvatarFallback>{name?.toUpperCase()}</AvatarFallback>
     </Avatar>
-  )
-}
+  );
+};
 
-export default AvatarIcon
+export default AvatarIcon;

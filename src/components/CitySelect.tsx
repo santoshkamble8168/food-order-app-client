@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronDown, MapPin } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronDown, MapPin } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,17 +12,34 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Cities } from "@/config/city-options-config"
+} from "@/components/ui/popover";
+import { Cities } from "@/config/city-options-config";
+import { useDispatch, useSelector } from "react-redux";
+import { setCity } from "@/redux/reducers/citySlice";
+import { RootState } from "@/redux/store";
 
 export function CitySelect() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const dispatch = useDispatch();
+  const selectedCity = useSelector((state: RootState) => state.city.name);
+  const [open, setOpen] = React.useState(false);
+
+  const selectedCityLabel = React.useMemo(
+    () => Cities.find((city) => city.value === selectedCity)?.label,
+    [selectedCity]
+  );
+
+  const handleCitySelect = React.useCallback(
+    (cityValue: string) => {
+      dispatch(setCity(cityValue));
+      setOpen(false);
+    },
+    [dispatch]
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -33,36 +50,33 @@ export function CitySelect() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-            <span className="flex items-center gap-2"><MapPin className="h-4 w-4 shrink-0 opacity-50" />
-          {value
-            ? Cities.find((city) => city.value === value)?.label
-            : "Select City..."}</span>
-            
+          <span className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 shrink-0 opacity-50" />
+            {selectedCityLabel || "Select City..."}
+          </span>
+
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search city..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No city found.</CommandEmpty>
             <CommandGroup>
-              {Cities.map((framework) => (
+              {Cities.map((city) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
+                  key={city.value}
+                  value={city.value}
+                  onSelect={() => handleCitySelect(city.value)}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      selectedCity === city.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  {city.label}
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -70,5 +84,5 @@ export function CitySelect() {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

@@ -10,7 +10,7 @@ const MainNav = () => {
     <span className="flex space-x-2 items-center">
       {isAuthenticated ? (
         <>
-          <Link to="/order-status" className="font-bold hover:text-orange-500">
+          <Link to="/order-status" className="hover:text-orange-500">
             Order Status
           </Link>
           <UsernameMenu />
@@ -18,7 +18,7 @@ const MainNav = () => {
       ) : (
         <Button
           variant="ghost"
-          className=" hover:bg-white"
+          className=" hover:bg-white hover:text-rose-500"
           onClick={async () => await loginWithRedirect()}
         >
           Log In

@@ -7,7 +7,7 @@ type Props = {
 
 const AvatarIcon = ({ imageUrl, name }: Props) => {
   return (
-    <Avatar>
+    <Avatar className="w-8 h-8">
       <AvatarImage src={imageUrl} alt="user" />
       <AvatarFallback>{name?.toUpperCase()}</AvatarFallback>
     </Avatar>

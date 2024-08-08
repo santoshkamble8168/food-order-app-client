@@ -7,17 +7,17 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
 import AvatarIcon from "./AvatarIcon";
+import { Store, User, LogOut } from "lucide-react";
 
 const UsernameMenu = () => {
   const { user, logout } = useAuth0();
 
-  console.log("user",user)
+  console.log("user", user);
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-orange-500 gap-2">
+      <DropdownMenuTrigger className="flex items-center px-3 hover:text-rose-500 gap-2">
         {user?.name}
         <AvatarIcon imageUrl={user?.picture} name={user?.name} />
       </DropdownMenuTrigger>
@@ -25,24 +25,31 @@ const UsernameMenu = () => {
         <DropdownMenuItem>
           <Link
             to="/manage-restaurant"
-            className="font-bold hover:text-orange-500"
+            className="flex items-center gap-3 hover:text-rose-500"
           >
+            <Store className="h-4 w-4 shrink-0 opacity-50" />
             Manage Restaurant
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link to="/user-profile" className="font-bold hover:text-orange-500">
+          <Link
+            to="/user-profile"
+            className="flex items-center gap-3 hover:text-rose-500"
+          >
+            <User className="h-4 w-4 shrink-0 opacity-50" />
             User Profile
           </Link>
         </DropdownMenuItem>
         <Separator />
         <DropdownMenuItem>
-          <Button
+          <Link
+            to="#"
+            className="flex items-center gap-3 hover:text-rose-500"
             onClick={() => logout()}
-            className="flex flex-1 font-bold bg-orange-500"
           >
+            <LogOut className="h-4 w-4 shrink-0 opacity-50" />
             Log Out
-          </Button>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

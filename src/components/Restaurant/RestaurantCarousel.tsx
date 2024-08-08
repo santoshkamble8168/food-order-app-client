@@ -14,7 +14,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useSearchRestaurants } from "@/api/RestaurantApi";
-import { SearchState } from "@/pages/SearchPage";
 import { Restaurant } from "@/types";
 import { MapPinIcon, Timer, Salad, Drumstick } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -25,12 +24,13 @@ type Props = {
 
 export function RestaurantCarousel({ city }: Props) {
   const navigate = useNavigate();
-  const [searchState, setSearchState] = React.useState<SearchState>({
+
+  const searchState = {
     searchQuery: "",
     page: 1,
     selectedCuisines: [],
     sortOption: "bestMatch",
-  });
+  };
 
   const { results: restaurants } = useSearchRestaurants(searchState, city);
 

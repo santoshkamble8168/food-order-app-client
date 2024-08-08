@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Card,
   CardContent,
@@ -13,6 +14,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useSearchRestaurants } from "@/api/RestaurantApi";
+import { SearchState } from "@/pages/SearchPage";
 import { Restaurant } from "@/types";
 import { MapPinIcon, Timer, Salad, Drumstick } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -23,17 +25,24 @@ type Props = {
 
 export function RestaurantCarousel({ city }: Props) {
   const navigate = useNavigate();
-
-  const searchState = {
+  const [searchState, setSearchState] = React.useState<SearchState>({
     searchQuery: "",
     page: 1,
     selectedCuisines: [],
     sortOption: "bestMatch",
-  };
+  });
 
-  const { results: restaurants } = useSearchRestaurants(searchState, city);
+  const { results: restaurants, isLoading } = useSearchRestaurants(
+    searchState,
+    city
+  );
 
-  console.log("restaurants", restaurants);
+  React.useEffect(() => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      city,
+    }));
+  }, [city]);
 
   const handleMenuSelect = (restaurant: Restaurant) => {
     console.log(restaurant);
@@ -42,6 +51,10 @@ export function RestaurantCarousel({ city }: Props) {
 
   if (!restaurants?.data || !city) {
     return <span>No results found</span>;
+  }
+
+  if (isLoading) {
+    return <span>Loading...</span>;
   }
 
   return (

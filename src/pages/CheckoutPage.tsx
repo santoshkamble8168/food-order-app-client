@@ -20,9 +20,7 @@ import CheckoutButton from "@/components/CheckoutButton";
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
 
-type Props = {};
-
-const CheckoutPage = (props: Props) => {
+const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const cartItems = useSelector((state: RootState) => state.cart.items);

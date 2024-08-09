@@ -8,11 +8,20 @@ type Cart = {
   restaurantId: string;
 };
 
+const cartSession: Cart = sessionStorage.getItem("cart")
+  ? JSON.parse(sessionStorage.getItem("cart") as string)
+  : {
+      items: [],
+      total: 0,
+      totalItems: 0,
+      restaurantId: "",
+    };
+
 const initialState: Cart = {
-  items: [],
-  total: 0,
-  totalItems: 0,
-  restaurantId: "",
+  items: cartSession.items || [],
+  total: cartSession.total || 0,
+  totalItems: cartSession.totalItems || 0,
+  restaurantId: cartSession.restaurantId || "",
 };
 
 type cartPayload = {
@@ -39,10 +48,7 @@ const cartSlice = createSlice({
       state.totalItems += 1;
 
       //store data into session
-      sessionStorage.setItem(
-        `cartItems-${action.payload.restaurantId}`,
-        JSON.stringify(state.items)
-      );
+      sessionStorage.setItem("cart", JSON.stringify(state));
     },
     removeItem: (
       state,
@@ -64,18 +70,15 @@ const cartSlice = createSlice({
       }
 
       // Store updated cart data into session storage
-      sessionStorage.setItem(
-        `cartItems-${action.payload.restaurantId}`,
-        JSON.stringify(state.items)
-      );
+      sessionStorage.setItem("cart", JSON.stringify(state));
     },
-    clearCart: (state, action: PayloadAction<string>) => {
+    clearCart: (state) => {
       state.items = [];
       state.total = 0;
       state.totalItems = 0;
 
       //clear session
-      sessionStorage.removeItem(`cartItems-${action.payload}`);
+      sessionStorage.removeItem("cart");
     },
   },
 });

@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Plus, Minus } from "lucide-react";
 import { RootState } from "@/redux/store";
+import Currency from "./Restaurant/Currency";
 
 type Props = {
   menuItem: MenuItemType;
@@ -23,7 +24,7 @@ const MenuItem = ({ menuItem, addToCart, removeFromCart }: Props) => {
       </CardHeader>
       <CardContent className="flex justify-between items-center">
         <div>
-          <p> £{(menuItem.price / 100).toFixed(2)}</p>
+          <Currency>{(menuItem.price / 100).toFixed(2)}</Currency>
         </div>
         {isItemOnCart ? (
           <div className="flex items-center gap-2 rounded-sm border-rose-500">

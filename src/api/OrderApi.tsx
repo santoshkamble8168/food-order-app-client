@@ -35,7 +35,7 @@ export const useGetMyOrders = () => {
   return { orders, isLoading };
 };
 
-type CheckoutSessionRequest = {
+export type CheckoutSessionRequest = {
   cartItems: {
     menuItemId: string;
     name: string;

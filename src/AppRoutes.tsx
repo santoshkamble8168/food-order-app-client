@@ -8,7 +8,7 @@ import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
-import Checkout from "./pages/Checkout";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const AppRoutes = () => {
   return (
@@ -42,7 +42,7 @@ const AppRoutes = () => {
         path="/checkout"
         element={
           <Layout showHero={false}>
-            <Checkout />
+            <CheckoutPage />
           </Layout>
         }
       />

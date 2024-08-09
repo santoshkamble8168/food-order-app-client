@@ -1,3 +1,4 @@
+import Currency from "@/components/Restaurant/Currency";
 import {
   FormControl,
   FormDescription,
@@ -66,7 +67,9 @@ const DetailsSection = () => {
         name="deliveryPrice"
         render={({ field }) => (
           <FormItem className="max-w-[25%]">
-            <FormLabel>Delivery price (£)</FormLabel>
+            <FormLabel className="flex items-center">
+              Delivery price (<Currency onlyIcon size="w-3"></Currency>)
+            </FormLabel>
             <FormControl>
               <Input {...field} className="bg-white" placeholder="1.50" />
             </FormControl>

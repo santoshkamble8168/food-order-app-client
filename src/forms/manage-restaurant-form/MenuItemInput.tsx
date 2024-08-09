@@ -1,3 +1,4 @@
+import Currency from "@/components/Restaurant/Currency";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -42,8 +43,8 @@ const MenuItemInput = ({ index, removeMenuItem }: Props) => {
         name={`menuItems.${index}.price`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="flex items-center gap-1">
-              Price (£) <FormMessage />
+            <FormLabel className="flex items-center">
+              Price (<Currency onlyIcon size="w-3"></Currency>) <FormMessage />
             </FormLabel>
             <FormControl>
               <Input {...field} placeholder="8.00" className="bg-white" />

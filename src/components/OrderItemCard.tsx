@@ -13,6 +13,7 @@ import {
 import { ORDER_STATUS } from "@/config/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/api/MyRestaurantApi";
 import { useEffect, useState } from "react";
+import Currency from "./Restaurant/Currency";
 
 type Props = {
   order: Order;
@@ -68,7 +69,7 @@ const OrderItemCard = ({ order }: Props) => {
           <div>
             Total Cost:
             <span className="ml-2 font-normal">
-              £{(order.totalAmount / 100).toFixed(2)}
+              <Currency>{(order.totalAmount / 100).toFixed(2)}</Currency>
             </span>
           </div>
         </CardTitle>

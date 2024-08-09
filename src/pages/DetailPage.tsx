@@ -4,12 +4,14 @@ import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, removeItem } from "@/redux/reducers/cartSlice";
+import { RootState } from "@/redux/store";
 
 export type CartItem = {
   _id: string;
@@ -20,63 +22,22 @@ export type CartItem = {
 
 const DetailPage = () => {
   const { restaurantId } = useParams();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   const { createCheckoutSession, isLoading: isCheckoutLoading } =
     useCreateCheckoutSession();
 
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
-    return storedCartItems ? JSON.parse(storedCartItems) : [];
-  });
-
   const addToCart = (menuItem: MenuItemType) => {
-    setCartItems((prevCartItems) => {
-      const existingCartItem = prevCartItems.find(
-        (cartItem) => cartItem._id === menuItem._id
-      );
+    if (!restaurantId) return;
 
-      let updatedCartItems;
-
-      if (existingCartItem) {
-        updatedCartItems = prevCartItems.map((cartItem) =>
-          cartItem._id === menuItem._id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        );
-      } else {
-        updatedCartItems = [
-          ...prevCartItems,
-          {
-            _id: menuItem._id,
-            name: menuItem.name,
-            price: menuItem.price,
-            quantity: 1,
-          },
-        ];
-      }
-
-      sessionStorage.setItem(
-        `cartItems-${restaurantId}`,
-        JSON.stringify(updatedCartItems)
-      );
-
-      return updatedCartItems;
-    });
+    dispatch(addItem({ ...menuItem, restaurantId: restaurantId }));
   };
 
-  const removeFromCart = (cartItem: CartItem) => {
-    setCartItems((prevCartItems) => {
-      const updatedCartItems = prevCartItems.filter(
-        (item) => cartItem._id !== item._id
-      );
-
-      sessionStorage.setItem(
-        `cartItems-${restaurantId}`,
-        JSON.stringify(updatedCartItems)
-      );
-
-      return updatedCartItems;
-    });
+  const removeFromCart = (menuItem: MenuItemType) => {
+    if (!restaurantId) return;
+    dispatch(removeItem({ _id: menuItem._id, restaurantId: restaurantId }));
   };
 
   const onCheckout = async (userFormData: UserFormData) => {
@@ -124,11 +85,12 @@ const DetailPage = () => {
             <MenuItem
               menuItem={menuItem}
               addToCart={() => addToCart(menuItem)}
+              removeFromCart={() => removeFromCart(menuItem)}
             />
           ))}
         </div>
 
-        <div>
+        {/* <div>
           <Card>
             <OrderSummary
               restaurant={restaurant}
@@ -143,7 +105,7 @@ const DetailPage = () => {
               />
             </CardFooter>
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   );

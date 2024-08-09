@@ -16,8 +16,8 @@ import {
 import { useSearchRestaurants } from "@/api/RestaurantApi";
 import { SearchState } from "@/pages/SearchPage";
 import { Restaurant } from "@/types";
-import { MapPinIcon, Timer, Salad, Drumstick } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import RestaurantFeatures from "./RestaurantFeatures";
 
 type Props = {
   city: string;
@@ -76,20 +76,10 @@ export function RestaurantCarousel({ city }: Props) {
                       <div className="w-72 whitespace-nowrap overflow-hidden text-ellipsis">
                         {restaurant.cuisines.map((cuisine) => `${cuisine}, `)}
                       </div>
-                      <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-center gap-1 mt-2">
-                          <MapPinIcon className="w-5 h-5 opacity-50" />{" "}
-                          {restaurant.city}
-                        </div>
-                        <div className="flex items-center gap-1 mt-2">
-                          <Timer className="w-5 h-5 opacity-50" />{" "}
-                          {restaurant.estimatedDeliveryTime} min
-                        </div>
-                        <div className="flex items-center gap-1 mt-2">
-                          <Salad className="w-5 h-5 opacity-50 text-green-500" />{" "}
-                          <Drumstick className="w-5 h-5 opacity-50 text-red-500" />{" "}
-                        </div>
-                      </div>
+                      <RestaurantFeatures
+                        city={restaurant.city}
+                        estimatedDeliveryTime={restaurant.estimatedDeliveryTime}
+                      />
                     </CardDescription>
                   </CardHeader>
                 </CardContent>

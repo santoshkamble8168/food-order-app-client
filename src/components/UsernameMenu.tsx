@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import AvatarIcon from "./AvatarIcon";
-import { Store, User, LogOut } from "lucide-react";
+import { Store, User, LogOut, CookingPot } from "lucide-react";
 
 const UsernameMenu = () => {
   const { user, logout } = useAuth0();
@@ -22,6 +22,15 @@ const UsernameMenu = () => {
         <AvatarIcon imageUrl={user?.picture} name={user?.name} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link
+            to="/order-status"
+            className="flex items-center gap-3 hover:text-rose-500"
+          >
+            <CookingPot className="h-4 w-4 shrink-0 opacity-50" />
+            Order status
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <Link
             to="/manage-restaurant"

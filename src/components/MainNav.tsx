@@ -11,7 +11,7 @@ const MainNav = () => {
   const cartCount = useSelector((state: RootState) => state.cart.totalItems);
 
   return (
-    <span className="flex space-x-2 items-center">
+    <span className="flex space-x-4 items-center">
       <Link to={"/checkout"}>
         <div className="relative inline-flex items-center">
           <ShoppingBag className="w-6 h-6 text-gray-700" />

@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -36,8 +37,9 @@ const Header = () => {
         <div className="md:hidden">
           <MobileNav />
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:flex gap-5 items-center">
           <MainNav />
+          <ThemeToggle />
         </div>
       </div>
     </div>

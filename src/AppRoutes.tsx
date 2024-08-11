@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./layouts/layout";
 import HomePage from "./pages/HomePage";
@@ -9,8 +10,17 @@ import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { applyTheme } from "./redux/reducers/themeSlice";
 
 const AppRoutes = () => {
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
+
   return (
     <Routes>
       <Route
